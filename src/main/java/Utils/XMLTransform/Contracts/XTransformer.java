@@ -1,4 +1,4 @@
-package Utils.XMLTransform;
+package Utils.XMLTransform.Contracts;
 
 import DAL.Contracts.ReadOnlyRepository;
 

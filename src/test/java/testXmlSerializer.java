@@ -2,7 +2,7 @@ import DAL.Contracts.ReadOnlyRepository;
 import DAL.DataEntities.Registers.Equipment;
 import DAL.Repositories.EquipmentRepo;
 import Utils.XMLTransform.XRepo;
-import Utils.XMLTransform.XTransformer;
+import Utils.XMLTransform.Contracts.XTransformer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

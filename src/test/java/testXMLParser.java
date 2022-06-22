@@ -1,6 +1,6 @@
 import DAL.DataEntities.Registers.Equipment;
-import Utils.XMLTransform.ObjectFactory;
-import Utils.XMLTransform.ObjectFactoryImpl;
+import Utils.XMLParser.Contracts.ObjectFactory;
+import Utils.XMLParser.DomFactoryImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -23,7 +23,9 @@ public class testXMLParser {
             e.printStackTrace();
         }
         try {
-            ObjectFactory objectFactory = new ObjectFactoryImpl();
+            ObjectFactory objectFactory = new DomFactoryImpl();
+            assert builder != null;
+
             Document document = builder.parse(fileXml);
 
             Element root = document.getDocumentElement();
@@ -37,9 +39,7 @@ public class testXMLParser {
                 System.out.println("------------------------");
                 System.out.println();
             }
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
     }

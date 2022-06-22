@@ -1,4 +1,6 @@
-package Utils.XMLTransform;
+package Utils.XMLParser;
+
+import Utils.XMLParser.Contracts.GenericListFactory;
 
 import java.util.ArrayList;
 import java.util.List;

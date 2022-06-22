@@ -3,6 +3,7 @@ package Utils.XMLTransform;
 import DAL.Contracts.ReadOnlyRepository;
 import DAL.DataEntities.Enums.DeviceType;
 import DAL.DataEntities.Enums.OsiLayer;
+import Utils.XMLTransform.Contracts.XTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

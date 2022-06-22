@@ -1,7 +1,9 @@
-package Utils.XMLTransform;
+package Utils.XMLParser;
 
 import DAL.DataEntities.Enums.DeviceType;
 import DAL.DataEntities.Enums.OsiLayer;
+import Utils.XMLParser.Contracts.GenericListFactory;
+import Utils.XMLParser.Contracts.ObjectFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class ObjectFactoryImpl implements ObjectFactory{
+public class DomFactoryImpl implements ObjectFactory {
     private static final String PKEY_ATTR_NAME = "pkey";
     private static final String REF_CONTAINER_TAG = "ref";
     private static final String REF_FIELD_TAG = "field";
@@ -23,7 +25,7 @@ public class ObjectFactoryImpl implements ObjectFactory{
 
     private final Map<Class<?>, Map<String, Object>> objStore;
 
-    public ObjectFactoryImpl(){
+    public DomFactoryImpl(){
         this.objStore = new HashMap<>();
     }
 
