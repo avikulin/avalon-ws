@@ -18,23 +18,19 @@ public class SaxFactoryImpl implements ObjectFactory {
     private static final String REF_COLLECTION = "collection";
     private static final String REF_TYPE_TAG = "type";
 
-    private final Map<Class<?>, Map<String, Object>> objStore;
+    private final Map<Class<?>, Map<String, Object>> objCache;
 
-    private final Deque<Field> refFieldStack;
-    private final Deque<ReferenceType> refTypeStack;
-    private final Deque<Object> objStack;
-    private final Deque<Class<?>> objClassStack;
+    private final Deque<RefHolder> refHolderStack;
+    private final Deque<ObjHolder> objHolderStack;
 
     public SaxFactoryImpl(){
-        this.objStore = new HashMap<>();
-        this.refFieldStack = new ArrayDeque<>();
-        this.refTypeStack = new ArrayDeque<>();
-        this.objStack = new ArrayDeque<>();
-        this.objClassStack = new ArrayDeque<>();
+        this.objCache = new HashMap<>();
+        this.refHolderStack = new ArrayDeque<>();
+        this.objHolderStack = new ArrayDeque<>();
     }
 
     private void initType(Class<?> typeName){
-        this.objStore.computeIfAbsent(typeName, t-> new HashMap<>());
+        this.objCache.computeIfAbsent(typeName, t-> new HashMap<>());
     }
 
     // ok
@@ -118,7 +114,7 @@ public class SaxFactoryImpl implements ObjectFactory {
     private void closeReference(ReferenceType refType){
         switch (refType){
             case COLLECTION:{
-                                this.objStack.pop();
+                                this.objHolderStack.pop();
                                 this.objClassStack.pop();
                                 this.refFieldStack.pop();
                                 this.refTypeStack.pop();
@@ -132,26 +128,7 @@ public class SaxFactoryImpl implements ObjectFactory {
         }
     }
 
-    private Object getReferencedObject(){
-        Object obj = this.objStack.peek();
-        Class<?> objClass = this.objClassStack.peek();
-        Field f = this.refFieldStack.peek();
-        ReferenceType refType = this.refTypeStack.peek();
 
-        Object res = null;
-        try{
-            res = f.get(obj);
-            if (res == null && refType == ReferenceType.COLLECTION){
-                GenericListFactory listFactory = new ListFactoryImpl();
-                res = listFactory.create(objClass);
-            }
-        } catch (IllegalAccessException e) {
-            String msg = String.format("Ошибка получение ссылки на значениеполя \"%s\": %s",
-                    f.getName(),
-                    e.getMessage());
-        }
-        return res;
-    }
 
     //ok
     private Object createItem(String tag, Map<String, String> attrs) throws IllegalStateException, NullPointerException {
@@ -170,7 +147,7 @@ public class SaxFactoryImpl implements ObjectFactory {
         String pkey = attrs.get(PKEY_ATTR_NAME);
         Object item;
         if (pkey != null && !pkey.isEmpty()) {
-            Map<String, Object> idxObjById = this.objStore.get(clazz);
+            Map<String, Object> idxObjById = this.objCache.get(clazz);
             item = idxObjById.get(pkey);
             if (item == null) {
                 Constructor<?> ctor = null;
@@ -200,9 +177,9 @@ public class SaxFactoryImpl implements ObjectFactory {
         ReferenceType refType = this.refTypeStack.peek();
 
         if (refType == ReferenceType.COLLECTION){
-            Object currentObj = this.objStack.peek();
+            Object currentObj = this.objHolderStack.peek();
             if (!(currentObj instanceof List)) {
-                this.objStack.pop(); //этот объект уже полностью обработан и находится в контейнере
+                this.objHolderStack.pop(); //этот объект уже полностью обработан и находится в контейнере
                 this.objClassStack.pop(); // поэтому просто удаляем его из стека
             }
 
@@ -222,11 +199,11 @@ public class SaxFactoryImpl implements ObjectFactory {
         }
         if (refType == ReferenceType.SCALAR){
             Field f = this.refFieldStack.peek();
-            Object obj = this.objStack.peek();
+            Object obj = this.objHolderStack.peek();
             setFieldValue(f, obj, item);
         }
 
-        this.objStack.push(item);
+        this.objHolderStack.push(item);
         this.objClassStack.push(clazz);
         return item;
     }
