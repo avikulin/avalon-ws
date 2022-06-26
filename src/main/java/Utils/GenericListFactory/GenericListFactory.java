@@ -1,4 +1,4 @@
-package Utils.XMLParser.Contracts;
+package Utils.GenericListFactory;
 
 import java.util.List;
 

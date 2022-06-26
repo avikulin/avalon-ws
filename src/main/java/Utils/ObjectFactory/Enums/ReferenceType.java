@@ -1,4 +1,4 @@
-package Utils.XMLParser;
+package Utils.ObjectFactory.Enums;
 
 public enum ReferenceType {
     SCALAR,

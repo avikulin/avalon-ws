@@ -1,45 +1,38 @@
-package DAL.DataEntities.Registers;
+package Services.Dto;
 
-import DAL.DataEntities.Dictionaries.Model;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@Entity
-@Table(name = "REG_EQUIPMENT_UNITS")
-public class Equipment {
-    @XmlAttribute
-    @Id
-    @GeneratedValue
-    @Column(name = "UNIT_ID")
+public class EquipmentDto {
     private Long id;
 
-    @XmlAttribute
-    @Column(name = "UNIT_CODE", nullable = false, length = 50)
     private String code;
 
-    @XmlAttribute
-    @Column(name = "UNIT_DESC", nullable = true, length = 250)
     private String description;
 
-    @XmlAttribute
-    @OneToOne
-    @JoinColumn(name = "MODEL_ID", nullable = false)
-    private Model model;
+    private String model;
 
-    @XmlAttribute
-    @OneToOne
-    @JoinColumn(name = "LOCATION_ID", nullable = false)
-    private Location location;
+    private String location;
 
-    @XmlAttribute
-    @Column(name = "IP_ADDR", nullable = false)
     private String ipAddress;
+
+    public EquipmentDto(){};
+
+    public EquipmentDto(Long id, String code, String description, String model, String  location, String ipAddress) {
+        this.id = id;
+        this.code = code;
+        this.description = description;
+        this.model = model;
+        this.location = location;
+        this.ipAddress = ipAddress;
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -58,19 +51,19 @@ public class Equipment {
         this.description = description;
     }
 
-    public Model getModel() {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(Model model) {
+    public void setModel(String model) {
         this.model = model;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -84,12 +77,12 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "Equipment{" +
+        return "EquipmentDto{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", description='" + description + '\'' +
-                ", model=" + model +
-                ", location=" + location +
+                ", model='" + model + '\'' +
+                ", location='" + location + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
                 '}';
     }
