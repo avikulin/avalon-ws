@@ -1,7 +1,7 @@
 package DAL.Repositories;
 
 import DAL.Contracts.CrudRepository;
-import DAL.DataEntities.Registers.Equipment;
+import DAL.DataEntities.Registers.Location;
 
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Singleton
-public class EquipmentRepo implements CrudRepository<Equipment, Long> {
+public class LocationRepo implements CrudRepository<Location, Long> {
     @PersistenceContext
     EntityManager entityManager;
 
@@ -20,24 +20,24 @@ public class EquipmentRepo implements CrudRepository<Equipment, Long> {
     }
 
     @Override
-    public List<Equipment> getAll() {
-        TypedQuery<Equipment> q = entityManager.createQuery("select p from Equipment p", Equipment.class);
+    public List<Location> getAll() {
+        TypedQuery<Location> q = entityManager.createQuery("select l from Location l", Location.class);
         return q.getResultList();
     }
 
     @Override
     public void deleteItem(Long key) {
-        Equipment item = getItem(key);
+        Location item = getItem(key);
         entityManager.remove(item);
     }
 
     @Override
-    public Equipment getItem(Long key) {
-        return entityManager.find(Equipment.class, key);
+    public Location getItem(Long key) {
+        return entityManager.find(Location.class, key);
     }
 
     @Override
     public Class<?> getEntityClass() {
-        return Equipment.class;
+        return Location.class;
     }
 }

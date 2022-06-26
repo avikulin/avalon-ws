@@ -4,23 +4,29 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 
 @Entity
 @Table(name = "DICT_COUNTRIES")
 public class Country {
+    @XmlAttribute
     @Id
     @Column(name = "COUNTRY_ID")
     private String id;
 
+    @XmlAttribute
     @Column(name = "COUNTRY_CODE", nullable = false, unique = true)
     private String code;
 
+    @XmlAttribute
     @Column(name = "SHORT_NAME", nullable = false, unique = true)
     private String shortName;
 
+    @XmlAttribute
     @Column(name = "FULL_NAME", nullable = false)
     private String fullName;
 
+    @XmlAttribute
     @Column(name = "REGION", nullable = false)
     private String region;
 

@@ -1,14 +1,13 @@
-import DAL.Contracts.ReadOnlyRepository;
+import DAL.Contracts.CrudRepository;
 import DAL.DataEntities.Registers.Equipment;
 import DAL.Repositories.EquipmentRepo;
-import Utils.XMLTransform.XRepo;
-import Utils.XMLTransform.Contracts.XTransformer;
+import Utils.XMLTransformer.XTransformer;
+import Utils.XMLTransformer.XTransformerImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class testXmlSerializer {
@@ -28,17 +27,12 @@ public class testXmlSerializer {
         emf = Persistence.createEntityManagerFactory("lab-db");
         em = emf.createEntityManager();
 
-        ReadOnlyRepository<Equipment> repository = new EquipmentRepo();
+        CrudRepository<Equipment, Long> repository = new EquipmentRepo();
         repository.registerDataSource(em);
 
-        XTransformer<Equipment> transformer = new XRepo<>();
+        XTransformer<Equipment, Long> transformer = new XTransformerImpl<>();
         transformer.setSource(repository);
-
-        try(FileOutputStream fileStream = new FileOutputStream(fileXml)) {
-            transformer.writeXML(fileStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        transformer.writeXML(fileXml);
 
         if (em != null) em.close();
         if (emf != null) emf.close();

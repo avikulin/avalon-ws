@@ -4,6 +4,7 @@ import DAL.DataEntities.Dictionaries.Country;
 import DAL.DataEntities.Dictionaries.OrgType;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,33 +12,42 @@ import java.util.List;
 @Entity
 @Table(name = "REG_ORGANIZATIONS")
 public class Organization {
+    @XmlAttribute
     @Id
     @GeneratedValue
     @Column(name = "ORG_ID")
     private Long id;
 
+    @XmlAttribute
     @OneToOne
     @JoinColumn(name="ORG_TYPE", nullable = false)
     private OrgType type;
 
+    @XmlAttribute
     @Column(name = "ORG_NAME", nullable = false, unique = true, length = 200)
     private String name;
 
+    @XmlAttribute
     @Column(name = "ORG_FULL_NAME", nullable = false, length = 250)
     private String fullName;
 
+    @XmlAttribute
     @Column(name = "INN_CODE", nullable = false, length = 12)
     private String innCode;
 
+    @XmlAttribute
     @Column(name = "KPP_CODE", nullable = false, length = 9)
     private String kppCode;
 
+    @XmlAttribute
     @Column(name = "OGRN_CODE", nullable = false, length = 13)
     private String ogrnCode;
 
+    @XmlAttribute
     @Column(name = "WEB_SITE", nullable = false, length = 250)
     private String webSiteUrl;
 
+    @XmlAttribute
     @OneToOne
     @JoinColumn(name="COUNTRY_ID")
     private Country countryOfRegistration;

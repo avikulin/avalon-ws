@@ -1,11 +1,11 @@
-package Utils.XMLParser;
+package Utils.GenericListFactory;
 
-import Utils.XMLParser.Contracts.GenericListFactory;
+import Utils.GenericListFactory.GenericListFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListFactoryImpl implements GenericListFactory {
+public class ArrayListFactoryImpl implements GenericListFactory {
     @Override
     public <Type> List<Type> create(Class<Type> type) {
         List<Type> res = new ArrayList<>();
